@@ -24,7 +24,9 @@ class ConvertorController extends AbstractActionController
             $fileContents = file_get_contents($files['input-file']['tmp_name']);
             $inputFile = $files['input-file']['name'];
             // Input filename extension
-            $inputExt = end(explode('.', $inputFile));
+	    $tarr = explode('.', $inputFile);
+            if(count($tarr>1))$inputExt = $tarr[count($tarr)-1];
+	    else $inputExt = '';
 	    // Method name that read data of given type
             $readFunc = 'read'.strtoupper($inputExt);
             try {
