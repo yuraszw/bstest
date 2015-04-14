@@ -1,0 +1,37 @@
+<h1>Simple data convertor</h1>
+
+<?php
+
+$this->headTitle('Convertor','SET');
+
+if(isset($error)){
+	echo '<h2><font color="red">'.$error.'</font></h2>';
+}
+
+if(isset($form)){
+    $form->prepare();
+    echo $this->form()->openTag($form);
+
+    echo "<table>";    
+    $fileElement = $form->get('input-file'); 
+    echo '<tr><td>';
+    echo $this->formLabel($fileElement);
+    echo '</td><td>';
+    echo $this->formFile($fileElement); 
+    echo $this->formElementErrors($fileElement); 
+    echo '</td></tr>';
+
+    $radioElement = $form->get('type');
+    echo '<tr><td>';
+    echo $this->formLabel($radioElement);
+    echo '</td><td>';
+    echo $this->formRadio($radioElement); 
+    echo '</td></tr>';
+
+    echo '<tr><td colspan="2">';
+    echo $this->formSubmit($form->get('submit'));
+    echo '</td></tr>';
+    echo '</table>';
+    echo $this->form()->closeTag();
+
+}
