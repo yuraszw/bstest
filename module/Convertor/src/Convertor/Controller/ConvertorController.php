@@ -20,14 +20,17 @@ class ConvertorController extends AbstractActionController
             $files = $request->getFiles()->toArray();
             $dh = new dataHolder();
 
-	    // Get contents of uploaded file
+        // Get contents of uploaded file
             $fileContents = file_get_contents($files['input-file']['tmp_name']);
             $inputFile = $files['input-file']['name'];
             // Input filename extension
-	    $tarr = explode('.', $inputFile);
-            if(count($tarr>1))$inputExt = $tarr[count($tarr)-1];
-	    else $inputExt = '';
-	    // Method name that read data of given type
+        $tarr = explode('.', $inputFile);
+            if (count($tarr>1)) {
+                $inputExt = $tarr[count($tarr)-1];
+            } else {
+                $inputExt = '';
+            }
+        // Method name that read data of given type
             $readFunc = 'read'.strtoupper($inputExt);
             try {
                 $dh->{$readFunc}($fileContents);
@@ -39,10 +42,10 @@ class ConvertorController extends AbstractActionController
             $outputFile = substr($inputFile, 0, strlen($inputFile)-strlen($inputExt)).strtolower($outputExt);
             $response = $this->getResponse();
             $getFunc = 'get'.strtoupper($outputExt);
-	    $ctFunc = 'get'.strtoupper($outputExt).'_CT';
+            $ctFunc = 'get'.strtoupper($outputExt).'_CT';
             try {
                 $strOutput = $dh->{$getFunc}($fileContents);
-		$contentType = $dh->{$ctFunc}();
+                $contentType = $dh->{$ctFunc}();
             } catch (\Exception $e) {
                 return array('form' => $form,'error' => 'Error writing result:<br>'.$e->getMessage());
             }

@@ -149,7 +149,7 @@ class dataHolder
      */
     public function readXML($str)
     {
-        $data = simplexml_load_string($str,"SimpleXMLElement",LIBXML_NOWARNING|LIBXML_NOERROR);
+        $data = simplexml_load_string($str, 'SimpleXMLElement', LIBXML_NOWARNING|LIBXML_NOERROR);
         if ($data === false) {
             throw new \Exception('Error parsing XML');
         }

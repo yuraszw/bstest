@@ -114,7 +114,6 @@ Done;
         $dh->readCSV($str);
     }
 
-
     /**
      * Simple XML import test.
      */
@@ -132,7 +131,7 @@ Done;
         $dh->readXML($str);
         $res = $dh->getData();
         $this->assertEquals($res, array(array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4),
-            array('a' => 5, 'd' => 8), array('a' => 9, 'b' => 10, 'd' => 12) ));
+            array('a' => 5, 'd' => 8), array('a' => 9, 'b' => 10, 'd' => 12), ));
     }
 
     /**
@@ -155,7 +154,6 @@ Done;
         $dh->readXML($str);
     }
 
-
     /**
      * Simple JSON import test.
      */
@@ -168,7 +166,7 @@ Done;
         $dh->readJSON($str);
         $res = $dh->getData();
         $this->assertEquals($res, array(array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4),
-            array('a' => 5, 'd' => 8), array('a' => 9, 'b' => 10, 'd' => 12) ));
+            array('a' => 5, 'd' => 8), array('a' => 9, 'b' => 10, 'd' => 12), ));
     }
 
     /**
@@ -186,25 +184,22 @@ Done;
         $dh->readJSON($str);
     }
 
-
     /**
-     * Expect Exception - trying to call unknows type parser
+     * Expect Exception - trying to call unknows type parser.
      *
      * @expectedException Exception
      * @expectedExceptionMessage Ivalid method called
      */
     public function testInvalidType()
     {
-	$str = 'Some string';
-	$dh = new dataHolder();
-	$dh->readUNDEFINED($str);
+        $str = 'Some string';
+        $dh = new dataHolder();
+        $dh->readUNDEFINED($str);
     }
 
-
     /**
-     * Export CSV file
+     * Export CSV file.
      */
-
     public function testCSVExport()
     {
         $str = <<<Done
@@ -214,34 +209,32 @@ a,b,c,d
 
 Done;
         $dh = new dataHolder();
-	$dh->setData(array(array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4),
-            array('a' => 5, 'b' => 6, 'c' => 7, 'd' => 8) ));
+        $dh->setData(array(array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4),
+            array('a' => 5, 'b' => 6, 'c' => 7, 'd' => 8), ));
 
         $res = $dh->getCSV();
         $this->assertEquals($res, $str);
     }
 
     /**
-     * Export JSON file
+     * Export JSON file.
      */
-
     public function testJSONExport()
     {
         $str = <<<Done
 [{"a":1,"b":2,"c":3,"d":4},{"a":5,"b":6,"c":7,"d":8}]
 Done;
         $dh = new dataHolder();
-	$dh->setData(array(array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4),
-            array('a' => 5, 'b' => 6, 'c' => 7, 'd' => 8) ));
+        $dh->setData(array(array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4),
+            array('a' => 5, 'b' => 6, 'c' => 7, 'd' => 8), ));
 
         $res = $dh->getJSON();
         $this->assertEquals($res, $str);
     }
 
     /**
-     * Export XML file
+     * Export XML file.
      */
-
     public function testXMLExport()
     {
         $str = <<<Done
@@ -250,13 +243,10 @@ Done;
 
 Done;
         $dh = new dataHolder();
-	$dh->setData(array(array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4),
-            array('a' => 5, 'b' => 6, 'c' => 7, 'd' => 8) ));
+        $dh->setData(array(array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4),
+            array('a' => 5, 'b' => 6, 'c' => 7, 'd' => 8), ));
 
         $res = $dh->getXML();
         $this->assertEquals($res, $str);
     }
-
-
-
 }
