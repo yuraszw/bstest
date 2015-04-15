@@ -10,7 +10,7 @@ class ConvertorTest extends PHPUnit_Framework_TestCase
     public function testConvertorInitialState()
     {
         $dh = new dataHolder();
-        $this->assertEquals(array(), $dh->getData());
+        $this->assertEquals(array(), $dh->getInternalData());
     }
 
     /**
@@ -24,8 +24,8 @@ a,b,c,d
 5,6,7,8
 Done;
         $dh = new dataHolder();
-        $dh->readCSV($str);
-        $res = $dh->getData();
+        $dh->readData($str, 'CSV');
+        $res = $dh->getInternalData();
         $this->assertEquals($res, array(array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4),
             array('a' => 5, 'b' => 6, 'c' => 7, 'd' => 8), ));
     }
@@ -41,8 +41,8 @@ a,b,c,d
 5,6,,8
 Done;
         $dh = new dataHolder();
-        $dh->readCSV($str);
-        $res = $dh->getData();
+        $dh->readData($str, 'CSV');
+        $res = $dh->getInternalData();
         $this->assertEquals($res, array(array('a' => 1, 'c' => 3, 'd' => 4),
             array('a' => 5, 'b' => 6, 'd' => 8), ));
     }
@@ -58,8 +58,8 @@ a,b,c,d
 5,6,"7,b",8
 Done;
         $dh = new dataHolder();
-        $dh->readCSV($str);
-        $res = $dh->getData();
+        $dh->readData($str, 'CSV');
+        $res = $dh->getInternalData();
         $this->assertEquals($res, array(array('a' => 1, 'b' => '2,a', 'c' => 3, 'd' => 4),
             array('a' => 5, 'b' => 6, 'c' => '7,b', 'd' => 8), ));
     }
@@ -75,8 +75,8 @@ a,"b,3",c,d
 5,6,7,8
 Done;
         $dh = new dataHolder();
-        $dh->readCSV($str);
-        $res = $dh->getData();
+        $dh->readData($str, 'CSV');
+        $res = $dh->getInternalData();
         $this->assertEquals($res, array(array('a' => 1, 'b,3' => 2, 'c' => 3, 'd' => 4),
             array('a' => 5, 'b,3' => 6, 'c' => 7, 'd' => 8), ));
     }
@@ -95,7 +95,7 @@ a,b,c,d
 5,6,7,8
 Done;
         $dh = new dataHolder();
-        $dh->readCSV($str);
+        $dh->readData($str, 'CSV');
     }
     /**
      * Expect exception - too few fields in one string.
@@ -111,7 +111,7 @@ a,b,c,d
 5,6,7,8
 Done;
         $dh = new dataHolder();
-        $dh->readCSV($str);
+        $dh->readData($str, 'CSV');
     }
 
     /**
@@ -128,8 +128,8 @@ Done;
 </dataset>
 Done;
         $dh = new dataHolder();
-        $dh->readXML($str);
-        $res = $dh->getData();
+        $dh->readData($str, 'XML');
+        $res = $dh->getInternalData();
         $this->assertEquals($res, array(array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4),
             array('a' => 5, 'd' => 8), array('a' => 9, 'b' => 10, 'd' => 12), ));
     }
@@ -151,7 +151,7 @@ Done;
 </dataset>
 Done;
         $dh = new dataHolder();
-        $dh->readXML($str);
+        $dh->readData($str, 'XML');
     }
 
     /**
@@ -163,8 +163,8 @@ Done;
 [{"a":"1","b":"2","c":"3","d":"4"},{"a":"5","d":"8"},{"a":"9","b":"10","d":"12"}]
 Done;
         $dh = new dataHolder();
-        $dh->readJSON($str);
-        $res = $dh->getData();
+        $dh->readData($str, 'JSON');
+        $res = $dh->getInternalData();
         $this->assertEquals($res, array(array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4),
             array('a' => 5, 'd' => 8), array('a' => 9, 'b' => 10, 'd' => 12), ));
     }
@@ -181,20 +181,20 @@ Done;
 [{"a":"1","b":"2","c":"3","d":"4"},{"a":"5","d":"8",{"a":"9","b":"10","d":"12"}]
 Done;
         $dh = new dataHolder();
-        $dh->readJSON($str);
+        $dh->readData($str, 'JSON');
     }
 
     /**
      * Expect Exception - trying to call unknows type parser.
      *
      * @expectedException Exception
-     * @expectedExceptionMessage Ivalid method called
+     * @expectedExceptionMessage No corresponding class found. Unsupported format?
      */
     public function testInvalidType()
     {
         $str = 'Some string';
         $dh = new dataHolder();
-        $dh->readUNDEFINED($str);
+        $dh->readData($str, 'Unknown');
     }
 
     /**
@@ -209,10 +209,10 @@ a,b,c,d
 
 Done;
         $dh = new dataHolder();
-        $dh->setData(array(array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4),
+        $dh->setInternalData(array(array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4),
             array('a' => 5, 'b' => 6, 'c' => 7, 'd' => 8), ));
 
-        $res = $dh->getCSV();
+        $res = $dh->getData('CSV');
         $this->assertEquals($res, $str);
     }
 
@@ -225,10 +225,10 @@ Done;
 [{"a":1,"b":2,"c":3,"d":4},{"a":5,"b":6,"c":7,"d":8}]
 Done;
         $dh = new dataHolder();
-        $dh->setData(array(array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4),
+        $dh->setInternalData(array(array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4),
             array('a' => 5, 'b' => 6, 'c' => 7, 'd' => 8), ));
 
-        $res = $dh->getJSON();
+        $res = $dh->getData('JSON');
         $this->assertEquals($res, $str);
     }
 
@@ -243,10 +243,10 @@ Done;
 
 Done;
         $dh = new dataHolder();
-        $dh->setData(array(array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4),
+        $dh->setInternalData(array(array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4),
             array('a' => 5, 'b' => 6, 'c' => 7, 'd' => 8), ));
 
-        $res = $dh->getXML();
+        $res = $dh->getData('XML');
         $this->assertEquals($res, $str);
     }
 }
