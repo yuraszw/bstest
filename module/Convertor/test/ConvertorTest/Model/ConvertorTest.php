@@ -188,7 +188,7 @@ Done;
      * Expect Exception - trying to call unknows type parser.
      *
      * @expectedException Exception
-     * @expectedExceptionMessage No corresponding class found. Unsupported format?
+     * @expectedExceptionMessage No corresponding class found. Unsupported format(Unknown)?
      */
     public function testInvalidType()
     {

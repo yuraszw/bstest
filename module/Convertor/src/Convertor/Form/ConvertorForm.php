@@ -22,16 +22,25 @@ class ConvertorForm extends Form
             ),
         ));
 
+        // Format array of supported file types (extensions)
+        $extArray = array();
+        $dirIt = new \DirectoryIterator(__DIR__.'/../Model/dataFormats/');
+        $dirIt->rewind();
+        while ($dirIt->valid()) {
+            $fileName = $dirIt->getBasename();
+            if (preg_match('/^format\w*\.php$/', $fileName)) {
+                $ext = preg_replace('/^format(\w*)\.php$/', '$1', $fileName);
+                $extArray[$ext] = $ext;
+            }
+            $dirIt->next();
+        }
+
         $this->add(array(
             'name' => 'type',
             'type' => 'Radio',
             'options' => array(
                 'label' => 'Select output format',
-                'value_options' => array(
-                    'csv' => 'CSV',
-                    'xml' => 'XML',
-                    'json' => 'JSON',
-                ),
+                'value_options' => $extArray,
             ),
             'attributes' => array(
                 'required' => true,

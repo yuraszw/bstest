@@ -39,12 +39,12 @@ class dataHolder
      *
      * @throws Exception
      */
-    private function checkClass($classname)
+    private function checkClass($classname,$ext='')
     {
         if (!class_exists($classname)) {
             spl_autoload_call($classname);
             if (!class_exists($classname)) {
-                throw new \Exception('No corresponding class found. Unsupported format?');
+                throw new \Exception("No corresponding class found. Unsupported format($ext)?");
             }
         }
         if (!in_array('Convertor\Model\dataFormats\dataFormatsInterface',
@@ -62,7 +62,7 @@ class dataHolder
     public function readData($fileContents, $ext)
     {
         $classname = 'Convertor\Model\dataFormats\format'.strtoupper($ext);
-        $this->checkClass($classname);
+        $this->checkClass($classname,$ext);
         $classname::readData($this->data, $fileContents);
     }
 
@@ -75,7 +75,7 @@ class dataHolder
     public function getData($ext)
     {
         $classname = 'Convertor\Model\dataFormats\format'.strtoupper($ext);
-        $this->checkClass($classname);
+        $this->checkClass($classname,$ext);
 
         return $classname::getData($this->data);
     }
