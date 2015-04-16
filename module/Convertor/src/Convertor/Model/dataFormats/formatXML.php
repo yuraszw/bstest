@@ -39,7 +39,7 @@ class formatXML implements dataFormatsInterface
     }
 
     /**
-     * Method returns internal data in XML format.
+     * Method returns supplied data in XML format.
      *
      * @return string XML data
      */

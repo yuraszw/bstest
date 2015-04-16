@@ -5,7 +5,7 @@ namespace Convertor\Model\dataFormats;
 interface dataFormatsInterface
 {
     /**
-     * Method reads data into internal storage.
+     * Method reads data into array - internal dataHoder format.
      *
      * @param array  &$arr Array to store data
      * @param string $str  Input data string
@@ -17,12 +17,13 @@ interface dataFormatsInterface
      *
      * @return string
      */
-    public static function getData(&$arr);
+    public static function getCT();
 
     /**
-     * Method returns internal data in CSV format.
+     * Method returns supplied data (given in dataHolder internal format)
+     * in specific format.
      *
-     * @return string CSV data
+     * @return string Formatted data
      */
-    public static function getCT();
+    public static function getData(&$arr);
 }

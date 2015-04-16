@@ -5,7 +5,7 @@ namespace Convertor\Model\dataFormats;
 class formatJSON implements dataFormatsInterface
 {
     /**
-     * Method reads JSON data into internal stotage.
+     * Method reads JSON data into $arr storage.
      *
      * @param array  &$arr Array to store data
      * @param string $str  Input data string
@@ -36,7 +36,7 @@ class formatJSON implements dataFormatsInterface
     }
 
     /**
-     * Method returns internal data in JSON format.
+     * Method convert data in JSON format.
      *
      * @return string JSON data
      */
